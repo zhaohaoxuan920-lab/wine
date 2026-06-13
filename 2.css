@@ -1,0 +1,735 @@
+* {
+    box-sizing: border-box;
+  }
+  :root {
+    --mzaC-fg: #e7ecf2;
+    --mzaC-accent: #9ef7d2;
+    --mzaC-accent2: #82a0ff;
+    --mzaC-glass: rgba(255, 255, 255, 0.06);
+    --mzaC-glow: rgba(130, 160, 255, 0.75);
+    --mzaC-slideW: min(880px, 90vw);
+    --mzaC-peek: 0.15;
+    --mzaPagH: 64px;
+    --mzaCardH: clamp(360px, 62vh, 600px);
+  }
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+  }
+  body {
+    background: radial-gradient(
+        1200px 600px at 10% -10%,
+        #1a2140 0%,
+        transparent 40%
+      ),
+      radial-gradient(900px 600px at 110% 10%, #0e3d3f 0%, transparent 40%),
+      linear-gradient(180deg, #0a0d12 0%, #0c1117 100%);
+    color: var(--mzaC-fg);
+    font: 16px/1.4 system-ui, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial;
+  }
+  .mzaCarousel {
+    position: relative;
+    height: 80vh;
+    max-width: 100vw;
+    margin: 0 auto;
+    padding: 0 18px;
+    overflow: hidden;
+    contain: layout paint;
+    touch-action: none;
+  }
+  .mzaCarousel-viewport {
+    position: relative;
+    outline: none;
+    overflow: hidden;
+    height: 100%;
+  }
+  .mzaCarousel-track {
+    position: relative;
+    height: calc(100% - var(--mzaPagH) - max(env(safe-area-inset-bottom), 12px));
+    transform-style: preserve-3d;
+    perspective: 1200px;
+    overflow: hidden;
+  }
+  .mzaCarousel-slide {
+    position: absolute;
+    top: calc(45% + 5px);
+    left: 50%;
+    width: var(--mzaC-slideW);
+    height: min(var(--mzaCardH), calc(100% - 50px));
+    transform-style: preserve-3d;
+    display: grid;
+    place-items: center;
+    border-radius: 22px;
+    overflow: hidden;
+    will-change: transform, filter;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0); 
+  }
+  .mzaCard {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    overflow: hidden;
+    background: var(--mzaC-glass);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    backdrop-filter: saturate(120%) blur(4px);
+    transform: translateZ(0);
+    cursor: grab;
+  }
+  .mzaCard::before {
+    content: "";
+    position: absolute;
+    inset: -2%;
+    background-image: var(--mzaCard-bg);
+    background-size: cover;
+    background-position: center;
+    filter: contrast(1.02) saturate(1.08) brightness(0.9);
+    transform: translateZ(-60px) scale(1.18)
+      translate3d(var(--mzaParBgX, 0px), var(--mzaParBgY, 0px), 0);
+    transition: transform 800ms cubic-bezier(0.2, 0.7, 0, 1),
+      filter 800ms cubic-bezier(0.2, 0.7, 0, 1);
+    will-change: transform;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+  }
+  .mzaCard::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.25),
+      rgba(0, 0, 0, 0.45) 45%,
+      rgba(0, 0, 0, 0.25) 100%
+    );
+  }
+  .mzaCard-head {
+    position: absolute;
+    inset: 20px auto auto 20px;
+    z-index: 2;
+  }
+  .mzaCard-title {
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    font-size: clamp(22px, 3.1vw, 38px);
+    text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.6);
+    line-height: 110%;
+    cursor: text;
+  }
+  .mzaCard-kicker {
+    margin: 0.5rem 0;
+    color: var(--mzaC-accent);
+    font-size: clamp(12px, 1.7vw, 14px);
+    font-weight: 600;
+    text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.6);
+    cursor: text;
+  }
+  .mzaCard-text {
+    display: -webkit-box;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    position: absolute;
+    inset: auto 20px 85px 20px;
+    z-index: 2;
+    max-width: 60ch;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 20px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 10px;
+    text-wrap: balance;
+    cursor: text;
+    color: #ddd;
+    overflow: hidden;
+  }
+  .mzaCard-actions {
+    position: absolute;
+    inset: auto auto 18px 18px;
+    z-index: 2;
+  }
+  .mzaBtn {
+    appearance: none;
+    border: 1px solid #9ef7d2;
+    border-radius: 14px;
+    padding: 15px 20px;
+    font-weight: 700;
+    color: #0b0e13;
+    background-image: linear-gradient(
+      180deg,
+      #9ef7d2,
+      #97ebc8,
+      #8fe0be,
+      #88d5b5,
+      #81c9ab,
+      #7abea2,
+      #73b398,
+      #6ca88f,
+      #659d86,
+      #5e937d,
+      #588874,
+      #517e6b
+    );
+    box-shadow: 0 3px 15px var(--mzaC-glow);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .mzaBtn:active {
+    transform: translateY(1px);
+    box-shadow: 0 3px 10px rgba(130, 160, 255, 0.25);
+  }
+  
+  .mzaCarousel-controls {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    pointer-events: none;
+  }
+  .mzaCarousel-prev,
+  .mzaCarousel-next {
+    pointer-events: auto;
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 0;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(6px);
+    color: var(--mzaC-fg);
+    font-size: 22px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .mzaCarousel-prev {
+    margin-left: 6px;
+  }
+  .mzaCarousel-next {
+    margin-right: 6px;
+  }
+  .mzaCarousel-prev:hover,
+  .mzaCarousel-next:hover {
+    background: rgba(255, 255, 255, 0.14);
+  }
+  .mzaCarousel-prev:active,
+  .mzaCarousel-next:active {
+    transform: scale(0.98);
+  }
+  
+  .mzaCarousel-pagination {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: max(27px, env(safe-area-inset-bottom));
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    pointer-events: auto;
+  }
+  .mzaCarousel-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.25);
+    border: 0;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .mzaCarousel-dot[aria-selected="true"] {
+    background: linear-gradient(180deg, var(--mzaC-accent2), var(--mzaC-accent));
+    transform: scale(1.35);
+  }
+  
+  .mzaCarousel-progress {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    z-index: 9999;
+    overflow: hidden;
+  }
+  .mzaCarousel-progressBar {
+    display: block;
+    height: 100%;
+    width: 100vw;
+    transform-origin: left;
+    transform: scaleX(0);
+    will-change: transform;
+    background: linear-gradient(90deg, var(--mzaC-accent), var(--mzaC-accent2));
+  }
+  
+  .mzaCarousel-slide[data-state="active"] .mzaCard::before {
+    filter: contrast(1.06) saturate(1.12) brightness(1.02);
+  }
+  .mzaCarousel-slide[data-state="active"] .mzaCard {
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.55),
+      0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  }
+  
+  .mzaPar-1,
+  .mzaPar-2,
+  .mzaPar-3 {
+    will-change: transform;
+    transition: transform 500ms cubic-bezier(0.2, 0.7, 0, 1);
+  }
+  .mzaPar-1 {
+    transform: translate3d(
+      calc(var(--mzaParX, 0px) * 0.35),
+      calc(var(--mzaParY, 0px) * 0.35),
+      0
+    );
+  }
+  .mzaPar-2 {
+    transform: translate3d(
+      calc(var(--mzaParX, 0px) * 0.25),
+      calc(var(--mzaParY, 0px) * 0.25),
+      0
+    );
+  }
+  .mzaPar-3 {
+    transform: translate3d(
+      calc(var(--mzaParX, 0px) * 0.18),
+      calc(var(--mzaParY, 0px) * 0.18),
+      0
+    );
+  }
+  
+  @media (max-width: 1000px) {
+    :root {
+      --mzaC-slideW: min(92vw, 620px);
+    }
+    .mzaCard-head {
+      inset: 16px auto auto 16px;
+    }
+    .mzaCard-title {
+      font-size: clamp(20px, 5.4vw, 30px);
+    }
+    .mzaCard-kicker {
+      font-size: clamp(12px, 3.6vw, 13px);
+    }
+    .mzaCard-text {
+      inset: auto 16px 62px 16px;
+    }
+  }
+  @media (max-width: 768px) {
+    :root {
+      --mzaC-slideW: min(94vw, 560px);
+    }
+    .mzaCard-text,
+    .mzaCard-title,
+    .mzaCard-kicker {
+      max-width: 45%;
+    }
+    .mzaCard-text::after {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      inset: 0;
+      background-image: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 1) 2%,
+        rgba(0, 0, 0, 0) 25%
+      );
+      content: "";
+      z-index: 1;
+    }
+  }
+  @media (max-width: 560px) {
+    :root {
+      --mzaC-slideW: min(96vw, 520px);
+    }
+  }
+  @media (max-height: 400px) {
+    .mzaCard-text {
+      display: none;
+    }
+  }
+  @media (max-height: 280px) {
+    .mzaCard-kicker {
+      display: none;
+    }
+  }
+  @media (max-height: 240px) {
+    .mzaBtn {
+      display: none;
+    }
+  }
+  #webgl {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    pointer-events: none;
+    
+    /* 🚀 确保没有自带背景色，让底层的图片能够100%透过来 */
+    background: transparent !important; 
+  }
+  
+  /* 前景滚动的真正容器 */
+  #scroll-container {
+    position: relative;
+    height: 600vh;
+    z-index: 2; /* 浮在 3D 画布之上 */
+  }
+  
+  /* 每一屏的高度必须撑满视口 */
+  .page-section {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 10%;
+    /* 🚀 核心细节：把原本的 opacity 淡入淡出稍微拉长到 0.8s，
+       这样文字在延迟滑行时，淡入淡出的手感会和相机的飞掠更配 */
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  /* 默认让第一屏显示 */
+  .page-section:first-child {
+    opacity: 1;
+  }
+  
+  /* 排版辅助类 */
+  .justify-center { justify-content: center; text-align: center; }
+  .justify-start { justify-content: flex-start; text-align: left; }
+  .justify-end { 
+    justify-content: flex-end; 
+    text-align: right; 
+  }
+  :root {
+    /* 🛠️ 【参数控制面板】：在这里直接修改数字，控制标题距离右边有多远！ */
+    /* 支持任何 CSS 单位，例如：5%（百分比）、80px（固定像素）、4vw（视口宽度） */
+    --title-right-distance: 6%; 
+  }
+  .title-large {
+    font-size: 6rem;
+    font-weight: 900;
+    line-height: 1.1;
+    max-width: 650px; 
+    display: inline-block;
+  
+    /* 2. ⚡ 核心：直接绑定顶部的自定义变量，调控靠右间距 */
+    margin-right: var(--title-right-distance); 
+    margin: 0;
+    background: linear-gradient(135deg, #ffffff, #a1a1aa);
+    
+    /* 1. 保留原本带前缀的属性，用于兼容老版本 WebKit 内核浏览器 (如老版 Safari) */
+    -webkit-background-clip: text; 
+    
+    /* 2. 核心核心：新增这一行标准属性，彻底消除你的编辑器警告并实现未来兼容 */
+    background-clip: text; 
+    
+    -webkit-text-fill-color: transparent;
+  }
+  
+  
+  .glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 3rem;
+    border-radius: 24px;
+    max-width: 420px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+  }
+  
+  .glass-card h2 { font-size: 2.2rem; margin-top: 0; margin-bottom: 1rem; }
+  .glass-card p { color: #a1a1aa; line-height: 1.7; font-size: 1.05rem; }
+  
+  .cta-button {
+    background: #ffffff; color: #000000; border: none;
+    padding: 1rem 2.5rem; font-size: 1.1rem; font-weight: 600;
+    border-radius: 50px; cursor: pointer; margin-top: 1.5rem;
+  }
+  /* ==========================================================================
+     🚀 新增：对角线双文本框（左上 vs 右下）高级排版
+     ========================================================================== */
+  
+  /* 左右两端撑开对齐 */
+  .justify-between {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 4% !important;  /* 🚀 从 10% 缩减到 4%，左上角卡片会瞬间向左边贴近 */
+    padding-right: 4% !important;
+  }
+  
+  /* 变窄专用的类，保持 310px 的黄金宽度 */
+  .card-narrow {
+    max-width: 310px !important;
+  }
+  
+  /* 🚀 核心：强行让左边的卡片在 Flex 容器中“顶天” */
+  .card-top-left {
+    align-self: flex-start; 
+    margin-top: 8vh; /* 距离屏幕顶部留出一点呼吸空间，防止撞到刘海屏或状态栏 */
+  }
+  
+  /* 🚀 核心：强行让右边的卡片在 Flex 容器中“沉底” */
+  .card-bottom-right {
+    align-self: flex-end; 
+    margin-bottom: 8vh; /* 距离屏幕底部留出一点呼吸空间，防止撞到页脚 */
+  }
+  
+  /* 小标签样式，保持原本的高档科技蓝点缀 */
+  .card-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: #60a5fa; 
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  /* ==========================================================================
+     🚀 终极特效：7键复杂动画顶部导航栏
+     ========================================================================== */
+     .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 70px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 4%;
+      box-sizing: border-box;
+      z-index: 100; /* 死死钉在网页最顶层 */
+      background: linear-gradient(to bottom, rgba(11, 11, 12, 0.6) 0%, rgba(11, 11, 12, 0) 100%);
+      backdrop-filter: blur(4px); /* 顶端微弱的环境毛玻璃 */
+    }
+    
+    .nav-logo {
+      font-size: 1.1rem;
+      font-weight: 900;
+      letter-spacing: 0.25em;
+      background: linear-gradient(135deg, #ffffff, #60a5fa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      cursor: pointer;
+    }
+    
+    /* 按钮容器，设置为相对定位，方便内部的胶囊绝对定位飞掠 */
+    .nav-links-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 4px;
+      border-radius: 30px;
+    }
+    
+    /* 🚀 复杂的液态跟踪毛玻璃胶囊 */
+    .nav-active-capsule {
+      position: absolute;
+      height: calc(100% - 8px);
+      top: 4px;
+      left: 4px;
+      width: 0; /* 宽度和位置将由 main.js 在毫秒级内计算更新 */
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 20px;
+      /* 使用高阶贝塞尔曲线，创造带有弹簧蓄力感（Snappy Spring）的物理飞掠特效 */
+      transition: all 0.55s cubic-bezier(0.25, 1, 0.3, 1.05);
+      pointer-events: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* 导航按键通用样式 */
+    .nav-item {
+      position: relative;
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      padding: 8px 18px;
+      border-radius: 20px;
+      transition: color 0.3s ease;
+      z-index: 2;
+    }
+    
+    /* 悬浮时字体微微变亮 */
+    .nav-item:hover {
+      color: #ffffff;
+    }
+    
+    /* 当按钮被激活时（比如点击后），文字呈高亮态 */
+    .nav-item.active {
+      color: #ffffff;
+    }
+    
+    /* 最后一键：特制的高级购买/预定按钮（PRE-ORDER） */
+    .buy-btn {
+      background: #ffffff;
+      color: #000000 !important;
+      margin-left: 6px;
+      box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+      transition: transform 0.2s, background-color 0.2s !important;
+    }
+    .buy-btn:hover {
+      transform: scale(1.03);
+      background: #f4f4f5;
+    }
+    
+    /* 🚀 新增：点击按钮时，从中央向两侧顺滑扩散的量子下划线特效 */
+    .nav-item::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #60a5fa, transparent);
+      transition: all 0.4s ease;
+      transform: translateX(-50%);
+      opacity: 0;
+    }
+    /* 点击触发瞬间的样式类（由 JS 动态给这个伪元素蓄力） */
+    .nav-item.ripple-trigger::after {
+      width: 60%;
+      opacity: 1;
+      transition: none; /* 瞬间拉开 */
+    }
+  /* ==========================================================================
+     🚀 终极特效：最后一屏纯黑高档落地腰封
+     ========================================================================== */
+  
+  /* 强制让第 6 屏的内容变成纵向纵向排列，方便把腰封挤到最底下 */
+  .flex-column {
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    padding-bottom: 0 !important; /* 核心：清除底部内边距，让腰封做到100%贴边 */
+    padding-left: 4% !important;
+    padding-right: 4% !important;
+  }
+  
+  /* 🚀 纯黑腰封主体样式 */
+  .bottom-footer-bar {
+    width: 100vw;
+    height: 80px; /* 黄金高度，尊贵而不显笨重 */
+    background: #000000; /* 🚀 纯黑，没有杂质 */
+    border-top: 1px solid rgba(255, 255, 255, 0.05); /* 极细的微光暗线，划分舞台与腰封 */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4%;
+    box-sizing: border-box;
+    margin-left: -4%; /* 核心：对齐由于 page-section 自带的 padding 偏移，实现真正全宽贴边 */
+  }
+  
+  /* 左侧文本与链接样式 */
+  .footer-left {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.4); /* 暗灰色，低调内敛 */
+  }
+  
+  .footer-divider {
+    margin: 0 12px;
+    color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .footer-link {
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .footer-link:hover {
+    color: #60a5fa; /* 悬浮时亮起科技蓝 */
+  }
+  
+  /* 右侧工业标签样式（类似苹果包装盒背后的精致小字） */
+  .footer-right {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .footer-spec-tag {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+  #smooth-text-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    will-change: transform; /* 开启显卡硬件加速，拒绝文字抖动 */
+  }
+  
+  /* ==========================================================================
+   SMOOTH BLACK PAGE TRANSITION OVERLAY
+   ========================================================================== */
+#page-fader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #0a0d12; /* 👈 使用你背景的深黑色 */
+  z-index: 999999;           /* 👈 确保处于全网页绝对的最顶层，挡住所有内容 */
+  pointer-events: none;       /* 初始不挡鼠标点击 */
+  opacity: 0;
+  transition: opacity 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 当激活淡入状态时，瞬间全黑 */
+#page-fader.active {
+  opacity: 1;
+  pointer-events: auto;      /* 全黑时禁止用户乱点 */
+}
+/* ==========================================================================
+   SMOOTH BLACK PAGE TRANSITION OVERLAY
+   ========================================================================== */
+
+/* 转场遮罩基础状态 */
+#gls-transition-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #0a0d12; /* 💡 严格匹配你 body 的最深背景色 */
+  z-index: 999999;           /* 确保在所有元素、包括导航栏和进度条的最上方 */
+  pointer-events: none;      /* 防止遮罩层阻挡初始的用户点击操作 */
+  opacity: 0;
+  transition: opacity 800ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity;
+}
+
+/* 纯黑显示状态 */
+#gls-transition-overlay.gls-transition-overlay--visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+/* 双向页面转场控制类 */
+.mza-page-transition-hidden {
+  opacity: 0 !important;
+  pointer-events: none !important; /* 👈 必须加，确保淡出后鼠标能穿透过去点击网页内容 */
+}
