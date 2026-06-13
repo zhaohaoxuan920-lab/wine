@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wine Brand Gallery</title>
+    <link rel="stylesheet" href="./2.css" />
+  </head>
+  <body>
+    <div id="mza-page-transition-overlay" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background-color:#000000; z-index:999999; opacity:1; transition:opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1); pointer-events:all;"></div>
+    <div id="page-fader"></div>
+        <!-- 🚀 新增：7键专业科技感顶部导航栏 -->
+        <nav class="top-nav">
+          <!-- 网页的科技感品牌 Logo -->
+          <div class="nav-logo">Wine DEMO</div>
+          
+          <!-- 7个核心导航按钮 -->
+          <div class="nav-links-container">
+            <!-- 核心：这个隐藏的 div 是跟随鼠标丝滑飞掠的液态毛玻璃胶囊 -->
+            <div class="nav-active-capsule"></div>
+            
+            <a href="index.html" class="nav-item">DISPLAY</a>
+            <a href="#design" class="nav-item">DESIGN</a>
+            <a href="#display" class="nav-item">OVERVIEW</a>
+            <a href="#performance" class="nav-item">PERFORMANCE</a>
+            <a href="#specs" class="nav-item">SPECS</a>
+            <a href="gallery.html" class="nav-item active">GALLERY</a>
+            <a href="#preorder" class="nav-item buy-btn">PRE-ORDER</a>
+          </div>
+        </nav>
+    <div id="gls-transition-overlay" class="gls-transition-overlay--visible"></div>
+    <!-- Three.js 的 3D 渲染舞台 -->
+    <canvas id="webg"></canvas>
+
+    <div class="mzaCarousel" id="mzaCarousel" aria-roledescription="carousel" aria-label="Featured cards">
+        <div class="mzaCarousel-viewport" tabindex="0">
+          <div class="mzaCarousel-track">
+            <article class="mzaCarousel-slide" role="group" aria-roledescription="slide" aria-label="1 of 7">
+              <div class="mzaCard" style="--mzaCard-bg:url('https://i.postimg.cc/FzdsvkTD/1.jpg');">
+                <header class="mzaCard-head mzaPar-1">
+                  <h2 class="mzaCard-title">Crisp White Wine</h2>
+                  <p class="mzaCard-kicker">Summer in a Glass</p>
+                </header>
+                <p class="mzaCard-text mzaPar-2">Bright citrus notes, elegant finish, and crisp acidity. Share daily, stay fresh.</p>
+                <footer class="mzaCard-actions mzaPar-3"><button class="mzaBtn">See case study</button></footer>
+              </div>
+            </article>
+      
+            <article class="mzaCarousel-slide" role="group" aria-roledescription="slide" aria-label="2 of 7">
+              <div class="mzaCard" style="--mzaCard-bg:url('https://i.postimg.cc/CLpz0mVN/2.jpg');">
+                <header class="mzaCard-head mzaPar-1">
+                  <h2 class="mzaCard-title">The Wine Cellar</h2>
+                  <p class="mzaCard-kicker">Aged to Perfection</p>
+                </header>
+                <p class="mzaCard-text mzaPar-2">Premium curated bottles, optimal storage, and timeless taste. Collect daily, stay refined.</p>
+                <footer class="mzaCard-actions mzaPar-3"><button class="mzaBtn">View live demo</button></footer>
+              </div>
+            </article>
+      
+            <article class="mzaCarousel-slide" role="group" aria-roledescription="slide" aria-label="3 of 7">
+              <div class="mzaCard" style="--mzaCard-bg:url('https://i.postimg.cc/kMKgTKtG/3.jpg');">
+                <header class="mzaCard-head mzaPar-1">
+                  <h2 class="mzaCard-title">Rich Red Wine</h2>
+                  <p class="mzaCard-kicker">Shared with Friends</p>
+                </header>
+                <p class="mzaCard-text mzaPar-2">Warm berry flavors, smooth texture, and cozy moments. Pour daily, stay connected.</p>
+                <footer class="mzaCard-actions mzaPar-3"><button class="mzaBtn">Explore reels</button></footer>
+              </div>
+            </article>
+      
+            <article class="mzaCarousel-slide" role="group" aria-roledescription="slide" aria-label="4 of 7">
+              <div class="mzaCard" style="--mzaCard-bg:url('https://i.postimg.cc/sDJDrzmp/4.jpg');">
+                <header class="mzaCard-head mzaPar-1">
+                  <h2 class="mzaCard-title">Shared Moments</h2>
+                  <p class="mzaCard-kicker">Better Together</p>
+                </header>
+                <p class="mzaCard-text mzaPar-2">Great company, memorable conversations, and full glasses. Celebrate daily, stay joyful.</p>
+                <footer class="mzaCard-actions mzaPar-3"><button class="mzaBtn">See patterns</button></footer>
+              </div>
+            </article>
+      
+            <article class="mzaCarousel-slide" role="group" aria-roledescription="slide" aria-label="5 of 7">
+              <div class="mzaCard" style="--mzaCard-bg:url('https://i.postimg.cc/q7Nky3TR/5.jpg');">
+                <header class="mzaCard-head mzaPar-1">
+                  <h2 class="mzaCard-title">Vineyard Harvest</h2>
+                  <p class="mzaCard-kicker">From Nature's Hands</p>
+                </header>
+                <p class="mzaCard-text mzaPar-2">Plump juicy fruit, careful handpicking, and pure authentic flavor. Nurture daily, stay excellent.</p>
+                <footer class="mzaCard-actions mzaPar-3"><button class="mzaBtn">Read playbook</button></footer>
+              </div>
+            </article>
+            <article class="mzaCarousel-slide" role="group" aria-roledescription="slide" aria-label="6 of 7">
+              <div class="mzaCard" style="--mzaCard-bg:url('https://i.postimg.cc/kGm90YtQ/6.jpg');">
+                <header class="mzaCard-head mzaPar-1">
+                  <h2 class="mzaCard-title">Elegant White Wine</h2>
+                  <p class="mzaCard-kicker">A Toast to Quality</p>
+                </header>
+                <p class="mzaCard-text mzaPar-2">Refined golden hues, balanced complexity, and sophisticated taste. Craft daily, stay premium.Refined golden hues, balanced complexity, and sophisticated taste. Craft daily, stay premium.</p>
+                <footer class="mzaCard-actions mzaPar-3"><button class="mzaBtn">See patterns</button></footer>
+              </div>
+            </article>
+            <article class="mzaCarousel-slide" role="group" aria-roledescription="slide" aria-label="7 of 7">
+              <div class="mzaCard" style="--mzaCard-bg:url('https://i.postimg.cc/FFyhyv2f/7.jpg');">
+                <header class="mzaCard-head mzaPar-1">
+                  <h2 class="mzaCard-title">Chateau Biston Moulis</h2>
+                  <p class="mzaCard-kicker">The Art of Bordeaux</p>
+                </header>
+                <p class="mzaCard-text mzaPar-2">Deep ruby color, complex fruit profile, and flawless balance. Decant daily, stay classic.</p>
+                <footer class="mzaCard-actions mzaPar-3"><button class="mzaBtn">See patterns</button></footer>
+              </div>
+            </article>
+          </div>
+        </div>
+      
+        <div class="mzaCarousel-controls" aria-label="Controls">
+          <button class="mzaCarousel-prev" aria-label="Previous slide" type="button">‹</button>
+          <button class="mzaCarousel-next" aria-label="Next slide" type="button">›</button>
+        </div>
+      
+        <div class="mzaCarousel-pagination" role="tablist" aria-label="Slide navigation"></div>
+        <div class="mzaCarousel-progress" aria-hidden="true"><span class="mzaCarousel-progressBar"></span></div>
+      </div>
+  
+    
+    <footer class="bottom-footer-bar">
+      <!-- 左侧：版权声明与系列名 -->
+      <div class="footer-left">
+        <span>© 2026 NX-LABS. ALL RIGHTS RESERVED.</span>
+        <span class="footer-divider">|</span>
+        <a href="#privacy" class="footer-link">PRIVACY POLICY</a>
+      </div>
+      
+      <!-- 右侧：现代工业设计参数微点缀 -->
+      <div class="footer-right">
+        <span class="footer-spec-tag">DESIGNED IN CToront</span>
+        <span class="footer-spec-tag">MODEL: NX(demo)-01</span>
+      </div>
+    </footer>
+  
+
+  </div>
+    <!-- 引入主控脚本 -->
+    <script type="module" src="main.js"></script>
+    <script type="module" src="sec.js"></script>
+  </body>
+</html>
