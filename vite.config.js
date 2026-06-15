@@ -1,12 +1,17 @@
 import { defineConfig } from 'vite';
-import { resolve } from 'path';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+
+// 现代打包环境下安全获取路径的方法，替代不稳定的 __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'index.html'),      // 你的首页
-        gallery: resolve(__dirname, 'gallery.html'),  // 你的第二个页面
+        main: resolve(__dirname, 'index.html'),
+        gallery: resolve(__dirname, 'gallery.html'),
       },
     },
   },
