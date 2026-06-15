@@ -476,7 +476,7 @@ if (this.isFF) {
       if (!overlayNode || mzaCardElements.length === 0) return;
 
       let loadedImagesCount = 0;
-      const totalImagesCount = mzaCardElements.length;
+      let totalImagesCount = mzaCardElements.length;
       
       // 1. 设置一个安全兜底定时器（防止万一图床服务器波动，导致页面死黑）
       const safetyTimeoutId = setTimeout(() => {
